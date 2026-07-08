@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <script src="script.js" defer></script>
 </head>
 <body>
   <header class="site-header">
@@ -25,25 +26,66 @@
       <div class="hero-bg" aria-hidden="true">
         <div class="glow glow-teal"></div>
         <div class="glow glow-magenta"></div>
-        <div class="house-scene">
-          <div class="house">
-            <div class="face base"></div>
-            <div class="face wall wall-front"></div>
-            <div class="face wall wall-back"></div>
-            <div class="face wall wall-left"></div>
-            <div class="face wall wall-right"></div>
-            <div class="face gable gable-left"></div>
-            <div class="face gable gable-right"></div>
-            <div class="face roof roof-front"></div>
-            <div class="face roof roof-back"></div>
-          </div>
-        </div>
-        <div class="particle p1"></div>
-        <div class="particle p2"></div>
-        <div class="particle p3"></div>
-        <div class="particle p4"></div>
-        <div class="particle p5"></div>
-        <div class="particle p6"></div>
+        <div class="horizon-glow"></div>
+        <svg class="skyline skyline-far" viewBox="0 0 1440 320" preserveAspectRatio="xMidYMax slice">
+          <g>
+            <rect x="40" y="170" width="80" height="150"/>
+            <rect x="55" y="140" width="50" height="34"/>
+            <rect x="68" y="110" width="24" height="34"/>
+            <polygon points="80,68 86,112 74,112"/>
+            <rect x="140" y="220" width="70" height="100"/>
+            <rect x="230" y="190" width="55" height="130"/>
+            <polygon points="257,148 266,192 248,192"/>
+            <rect x="340" y="240" width="80" height="80"/>
+            <rect x="450" y="200" width="60" height="120"/>
+            <rect x="540" y="230" width="50" height="90"/>
+            <rect x="620" y="120" width="90" height="200"/>
+            <rect x="640" y="85" width="50" height="38"/>
+            <rect x="655" y="55" width="20" height="32"/>
+            <polygon points="665,8 671,57 659,57"/>
+            <rect x="760" y="210" width="70" height="110"/>
+            <rect x="860" y="180" width="60" height="140"/>
+            <polygon points="890,140 898,182 882,182"/>
+            <rect x="950" y="240" width="90" height="80"/>
+            <rect x="1060" y="200" width="55" height="120"/>
+            <rect x="1150" y="160" width="70" height="160"/>
+            <rect x="1165" y="130" width="40" height="32"/>
+            <polygon points="1185,92 1192,132 1178,132"/>
+            <rect x="1260" y="220" width="80" height="100"/>
+            <rect x="1370" y="190" width="70" height="130"/>
+          </g>
+        </svg>
+        <svg class="skyline skyline-near" viewBox="0 0 1440 320" preserveAspectRatio="xMidYMax slice">
+          <g class="buildings">
+            <rect x="0" y="240" width="120" height="80"/>
+            <rect x="150" y="190" width="90" height="130"/>
+            <rect x="170" y="160" width="50" height="34"/>
+            <polygon points="195,108 203,162 187,162"/>
+            <rect x="300" y="260" width="100" height="60"/>
+            <rect x="430" y="220" width="80" height="100"/>
+            <rect x="465" y="190" width="4" height="30"/>
+            <rect x="600" y="250" width="90" height="70"/>
+            <rect x="760" y="240" width="90" height="80"/>
+            <rect x="980" y="250" width="110" height="70"/>
+            <rect x="1180" y="170" width="100" height="150"/>
+            <rect x="1205" y="135" width="50" height="38"/>
+            <polygon points="1230,82 1238,137 1222,137"/>
+            <rect x="1320" y="230" width="120" height="90"/>
+          </g>
+          <g class="windows">
+            <rect class="win" x="170" y="212" width="5" height="7"/>
+            <rect class="win" x="188" y="212" width="5" height="7"/>
+            <rect class="win" x="206" y="230" width="5" height="7"/>
+            <rect class="win" x="452" y="242" width="5" height="7"/>
+            <rect class="win" x="472" y="260" width="5" height="7"/>
+            <rect class="win" x="1204" y="196" width="5" height="7"/>
+            <rect class="win" x="1226" y="196" width="5" height="7"/>
+            <rect class="win" x="1248" y="218" width="5" height="7"/>
+            <rect class="win" x="1214" y="240" width="5" height="7"/>
+            <rect class="win" x="628" y="270" width="5" height="7"/>
+          </g>
+        </svg>
+        <canvas class="embers"></canvas>
       </div>
 
       <div class="hero-inner">
@@ -103,11 +145,11 @@
     <p class="footer-name">Peter <span class="footer-name-accent">Yoo</span></p>
     <p class="footer-role">3D Animator</p>
     <nav class="footer-nav">
-      <a href="#reel">Reel</a>
+      <a href="#reel">Animation</a>
       <span class="footer-dot" aria-hidden="true"></span>
       <a href="about.html">About</a>
       <span class="footer-dot" aria-hidden="true"></span>
-      <a href="mailto:petery96@gmail.com">Contact</a>
+      <a href="resume.html">Resume</a>
       <span class="footer-dot" aria-hidden="true"></span>
       <a href="https://vimeo.com/" target="_blank" rel="noopener">Vimeo</a>
     </nav>

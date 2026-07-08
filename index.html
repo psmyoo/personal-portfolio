@@ -8,99 +8,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
-  <script type="importmap">
-    {
-      "imports": {
-        "three": "https://unpkg.com/three@0.170.0/build/three.module.js",
-        "three/addons/": "https://unpkg.com/three@0.170.0/examples/jsm/"
-      }
-    }
-  </script>
-  <!-- Hero 3D scene — adapted from the three.js webgl_animation_keyframes example.
-       Inline module (not an external file) so it also runs when the page is opened
-       directly from disk. Placeholder model: "Littlest Tokyo" by Glen Fox, CC BY 4.0.
-       Swap MODEL_URL for Peter's own glTF scene when ready. -->
-  <script type="module">
-    import * as THREE from "three";
-    import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-    import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
-    import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
-
-    const MODEL_URL =
-      "https://cdn.jsdelivr.net/gh/mrdoob/three.js@r170/examples/models/gltf/LittlestTokyo.glb";
-
-    const container = document.querySelector(".webgl-scene");
-    if (container) {
-      try {
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-        renderer.setSize(container.clientWidth, container.clientHeight);
-        container.appendChild(renderer.domElement);
-
-        const scene = new THREE.Scene();
-        const pmrem = new THREE.PMREMGenerator(renderer);
-        scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-
-        const camera = new THREE.PerspectiveCamera(
-          38,
-          container.clientWidth / container.clientHeight,
-          1,
-          100
-        );
-
-        // Render as if the viewport were wider and show its left slice, so the
-        // diorama sits in the right ~72% of the hero, clear of the titles.
-        function applyViewOffset() {
-          const w = container.clientWidth;
-          const h = container.clientHeight;
-          camera.setViewOffset(w * 1.45, h, 0, 0, w, h);
-        }
-        applyViewOffset();
-
-        const draco = new DRACOLoader();
-        draco.setDecoderPath("https://www.gstatic.com/draco/versioned/decoders/1.5.7/");
-        const loader = new GLTFLoader();
-        loader.setDRACOLoader(draco);
-
-        let mixer = null;
-        const clock = new THREE.Clock();
-
-        loader.load(MODEL_URL, (gltf) => {
-          const model = gltf.scene;
-          model.position.set(1, 0.9, 0);
-          model.scale.setScalar(0.01);
-          scene.add(model);
-          mixer = new THREE.AnimationMixer(model);
-          mixer.clipAction(gltf.animations[0]).play();
-          container.classList.add("is-ready");
-        });
-
-        const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        let t = 0;
-
-        function animate() {
-          const dt = clock.getDelta();
-          if (mixer) mixer.update(dt);
-          t += dt;
-          const ang = t * 0.08;
-          camera.position.set(Math.sin(ang) * 11.5, 3, Math.cos(ang) * 11.5);
-          camera.lookAt(0.4, 0.7, 0);
-          renderer.render(scene, camera);
-          if (!reduced) requestAnimationFrame(animate);
-        }
-        animate();
-
-        window.addEventListener("resize", () => {
-          camera.aspect = container.clientWidth / container.clientHeight;
-          applyViewOffset();
-          camera.updateProjectionMatrix();
-          renderer.setSize(container.clientWidth, container.clientHeight);
-        });
-      } catch (e) {
-        // WebGL unavailable — the page simply renders without the 3D scene.
-      }
-    }
-  </script>
 </head>
 <body>
   <header class="site-header">
@@ -115,7 +22,6 @@
   <main id="top">
     <!-- ============ HERO ============ -->
     <section class="hero">
-      <div class="webgl-scene" aria-hidden="true"></div>
       <div class="hero-inner">
         <h1 class="hero-title">
           <span class="line line-name">PETER YOO</span>

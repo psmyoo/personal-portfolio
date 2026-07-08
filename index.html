@@ -24,7 +24,7 @@
     <section class="hero">
       <div class="hero-inner">
         <h1 class="hero-title">
-          <span class="line line-name">HI, I'M PETER YOO</span>
+          <span class="line line-name"><span class="type-text">HI, I'M PETER YOO</span><span class="type-caret" aria-hidden="true"></span></span>
           <span class="line line-role">3D ANIMATOR</span>
         </h1>
         <p class="hero-tagline">
@@ -77,5 +77,39 @@
     <p class="footer-copyright">&copy; 2026 Peter Yoo. All rights reserved.</p>
   </footer>
 
+  <!-- Typing effect on the hero greeting: English → Korean → Japanese, looping -->
+  <script>
+    (function () {
+      var el = document.querySelector(".type-text");
+      if (!el) return;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+      var phrases = ["HI, I'M PETER YOO", "안녕하세요!", "こんにちは"];
+      var TYPE = 85, DELETE = 45, HOLD = 1800, GAP = 400;
+      var idx = 0;
+
+      function type(text, i) {
+        el.textContent = text.slice(0, i);
+        if (i < text.length) {
+          setTimeout(function () { type(text, i + 1); }, TYPE);
+        } else {
+          setTimeout(function () { erase(text, text.length); }, HOLD);
+        }
+      }
+
+      function erase(text, i) {
+        el.textContent = text.slice(0, i);
+        if (i > 0) {
+          setTimeout(function () { erase(text, i - 1); }, DELETE);
+        } else {
+          idx = (idx + 1) % phrases.length;
+          setTimeout(function () { type(phrases[idx], 0); }, GAP);
+        }
+      }
+
+      // let the entrance animation finish, then start from the full first phrase
+      setTimeout(function () { erase(phrases[0], phrases[0].length); }, 2200);
+    })();
+  </script>
 </body>
 </html>

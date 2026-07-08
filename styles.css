@@ -227,21 +227,6 @@ a {
   animation-delay: 0.05s;
 }
 
-/* blinking caret for the typing effect */
-.type-caret {
-  display: inline-block;
-  width: 0.07em;
-  height: 0.78em;
-  margin-left: 0.08em;
-  background: var(--accent-light);
-  animation: caret-blink 1.05s steps(1) infinite;
-}
-
-@keyframes caret-blink {
-  0%, 55% { opacity: 1; }
-  56%, 100% { opacity: 0; }
-}
-
 .line-role {
   color: #f2f6fc;
   animation-delay: 0.18s;

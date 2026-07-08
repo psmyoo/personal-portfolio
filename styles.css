@@ -573,8 +573,7 @@ body.nav-locked {
   color: var(--muted-on-ink);
 }
 
-/* keep the content above the ghost name */
-.footer-body > :not(.footer-ghost) {
+.footer-body > * {
   position: relative;
   z-index: 1;
 }
@@ -600,23 +599,6 @@ body.nav-locked {
 @keyframes twinkle {
   from { opacity: 0.35; }
   to { opacity: 0.9; }
-}
-
-/* giant ghosted name behind everything */
-.footer-ghost {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -0.12em;
-  font-family: var(--display);
-  font-weight: 700;
-  font-size: clamp(72px, 15vw, 210px);
-  line-height: 1;
-  letter-spacing: 0.02em;
-  white-space: nowrap;
-  color: rgba(234, 241, 251, 0.04);
-  pointer-events: none;
-  user-select: none;
 }
 
 .footer-name {

@@ -143,6 +143,16 @@ a {
   z-index: 1;
 }
 
+/* wireframe turntable canvas, right of the titles */
+.hero-wire {
+  position: absolute;
+  top: 50%;
+  right: -6%;
+  transform: translateY(-50%);
+  width: min(56vw, 780px);
+  height: min(56vw, 780px);
+}
+
 .hero-inner {
   position: relative;
   z-index: 2;
@@ -569,6 +579,13 @@ a {
 
   .site-nav {
     gap: 16px;
+  }
+
+  .hero-wire {
+    width: 88vw;
+    height: 88vw;
+    right: -22%;
+    opacity: 0.5;
   }
 
   .section {

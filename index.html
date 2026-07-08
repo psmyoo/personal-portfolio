@@ -22,6 +22,7 @@
   <main id="top">
     <!-- ============ HERO ============ -->
     <section class="hero">
+      <canvas class="hero-wire" aria-hidden="true"></canvas>
       <div class="hero-inner">
         <h1 class="hero-title">
           <span class="line line-name">PETER YOO</span>
@@ -76,5 +77,114 @@
     <a class="footer-email" href="mailto:petery96@gmail.com">petery96@gmail.com</a>
     <p class="footer-copyright">&copy; 2026 Peter Yoo. All rights reserved.</p>
   </footer>
+
+  <!-- Hero wireframe turntable: an ink-line icosahedron with blue keyframe
+       vertices, slowly orbiting like a model in a 3D viewport. -->
+  <script>
+    (function () {
+      var canvas = document.querySelector(".hero-wire");
+      if (!canvas) return;
+      var ctx = canvas.getContext("2d");
+      var w, h;
+
+      function resize() {
+        var dpr = Math.min(window.devicePixelRatio || 1, 2);
+        w = canvas.clientWidth;
+        h = canvas.clientHeight;
+        canvas.width = w * dpr;
+        canvas.height = h * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+      resize();
+      window.addEventListener("resize", resize);
+
+      // icosahedron vertices
+      var P = 1.618;
+      var verts = [
+        [-1, P, 0], [1, P, 0], [-1, -P, 0], [1, -P, 0],
+        [0, -1, P], [0, 1, P], [0, -1, -P], [0, 1, -P],
+        [P, 0, -1], [P, 0, 1], [-P, 0, -1], [-P, 0, 1],
+      ];
+      // edges = vertex pairs at the icosahedron's edge length (dist^2 = 4)
+      var edges = [];
+      for (var i = 0; i < verts.length; i++) {
+        for (var j = i + 1; j < verts.length; j++) {
+          var dx = verts[i][0] - verts[j][0];
+          var dy = verts[i][1] - verts[j][1];
+          var dz = verts[i][2] - verts[j][2];
+          if (Math.abs(dx * dx + dy * dy + dz * dz - 4) < 0.01) edges.push([i, j]);
+        }
+      }
+
+      var mouseX = 0, mouseY = 0, curX = 0, curY = 0;
+      window.addEventListener("mousemove", function (e) {
+        mouseX = (e.clientX / window.innerWidth - 0.5) * 0.5;
+        mouseY = (e.clientY / window.innerHeight - 0.5) * 0.35;
+      });
+
+      var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var t = 0;
+
+      function project(v, rotY, rotX, size) {
+        var x = v[0], y = v[1], z = v[2];
+        var c = Math.cos(rotY), s = Math.sin(rotY);
+        var x1 = x * c - z * s, z1 = x * s + z * c;
+        c = Math.cos(rotX); s = Math.sin(rotX);
+        var y1 = y * c - z1 * s, z2 = y * s + z1 * c;
+        var f = 5 / (5 + z2);
+        return [w / 2 + x1 * size * f, h / 2 + y1 * size * f, z2];
+      }
+
+      function frame() {
+        t += 0.016;
+        curX += (mouseX - curX) * 0.04;
+        curY += (mouseY - curY) * 0.04;
+        var rotY = t * 0.18 + curX;
+        var rotX = 0.42 + curY;
+        var size = Math.min(w, h) * 0.26;
+
+        ctx.clearRect(0, 0, w, h);
+
+        // ground shadow
+        ctx.fillStyle = "rgba(17, 17, 20, 0.06)";
+        ctx.beginPath();
+        ctx.ellipse(w / 2, h / 2 + size * 1.55, size * 0.85, size * 0.16, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        var pts = [];
+        for (var i = 0; i < verts.length; i++) pts.push(project(verts[i], rotY, rotX, size));
+
+        // ink edges, back edges fainter
+        for (var e = 0; e < edges.length; e++) {
+          var a = pts[edges[e][0]], b = pts[edges[e][1]];
+          var depth = (a[2] + b[2]) / 2;
+          ctx.strokeStyle = depth > 0
+            ? "rgba(17, 17, 20, 0.14)"
+            : "rgba(17, 17, 20, 0.38)";
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.moveTo(a[0], a[1]);
+          ctx.lineTo(b[0], b[1]);
+          ctx.stroke();
+        }
+
+        // blue keyframe diamonds at vertices
+        for (var p = 0; p < pts.length; p++) {
+          var pt = pts[p];
+          var near = pt[2] < 0;
+          var r = near ? 5 : 3.2;
+          ctx.fillStyle = near ? "#1e4fff" : "rgba(30, 79, 255, 0.35)";
+          ctx.save();
+          ctx.translate(pt[0], pt[1]);
+          ctx.rotate(Math.PI / 4);
+          ctx.fillRect(-r / 2, -r / 2, r, r);
+          ctx.restore();
+        }
+
+        if (!reduced) requestAnimationFrame(frame);
+      }
+      frame();
+    })();
+  </script>
 </body>
 </html>

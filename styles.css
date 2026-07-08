@@ -238,23 +238,11 @@ a {
 .line-role {
   color: #f2f6fc;
   animation-delay: 0.18s;
-  transition: color 0.25s ease, -webkit-text-stroke-color 0.25s ease;
+  transition: color 0.25s ease;
 }
 
 .line-role:hover {
-  color: var(--accent-light);
-}
-
-@supports (-webkit-text-stroke: 2px black) {
-  .line-role {
-    color: transparent;
-    -webkit-text-stroke: 2.5px #f2f6fc;
-  }
-
-  .line-role:hover {
-    color: var(--accent-light);
-    -webkit-text-stroke-color: var(--accent-light);
-  }
+  color: #12264d;
 }
 
 @keyframes rise {

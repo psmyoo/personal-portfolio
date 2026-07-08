@@ -41,6 +41,11 @@
           <span class="cta-label">Watch the Reel</span>
         </a>
       </div>
+      <a class="scroll-cue" href="#reel" aria-label="Scroll down to the reel">
+        <span class="scroll-cue-label">Scroll</span>
+        <span class="chev" aria-hidden="true"></span>
+        <span class="chev" aria-hidden="true"></span>
+      </a>
     </section>
 
     <!-- ============ REEL ============ -->
@@ -111,6 +116,19 @@
       });
     })();
   </script>
+  <!-- squash-and-stretch pop when the reel button is clicked -->
+  <script>
+    (function () {
+      var cta = document.querySelector(".cta");
+      if (!cta) return;
+      cta.addEventListener("click", function () {
+        cta.classList.remove("is-popping");
+        void cta.offsetWidth; /* restart the animation */
+        cta.classList.add("is-popping");
+      });
+    })();
+  </script>
+
   <!-- header becomes solid only after scrolling -->
   <script>
     (function () {

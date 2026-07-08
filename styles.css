@@ -289,6 +289,75 @@ a {
   border-bottom: 6px solid transparent;
 }
 
+/* play triangle nudges forward while hovering */
+.cta:hover .cta-play {
+  animation: play-nudge 0.8s ease-in-out infinite;
+}
+
+@keyframes play-nudge {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(5px); }
+}
+
+/* squash-and-stretch pop on click */
+.cta.is-popping {
+  animation: cta-pop 0.45s var(--spring);
+}
+
+@keyframes cta-pop {
+  0% { transform: scale(1, 1); }
+  30% { transform: scale(1.12, 0.86); }
+  60% { transform: scale(0.94, 1.06); }
+  100% { transform: scale(1, 1); }
+}
+
+/* scroll cue: there's more below */
+.scroll-cue {
+  position: absolute;
+  z-index: 2;
+  bottom: 26px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  text-decoration: none;
+  font-family: var(--mono);
+  font-size: 15px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(234, 241, 251, 0.85);
+  transition: color 0.2s ease;
+}
+
+.scroll-cue:hover {
+  color: #ffffff;
+}
+
+.scroll-cue-label {
+  margin-bottom: 6px;
+}
+
+.scroll-cue .chev {
+  width: 12px;
+  height: 12px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+  animation: chev-drop 1.6s ease-in-out infinite;
+}
+
+.scroll-cue .chev:nth-of-type(2) {
+  margin-top: -6px;
+  animation-delay: 0.18s;
+}
+
+@keyframes chev-drop {
+  0%, 100% { opacity: 0.25; transform: rotate(45deg) translate(0, 0); }
+  50% { opacity: 1; transform: rotate(45deg) translate(4px, 4px); }
+}
+
 /* ============ SECTIONS ============ */
 
 .page-main {

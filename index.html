@@ -162,10 +162,7 @@
           container.classList.add("is-ready");
         });
 
-        const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
         function animate() {
-          if (!reduced) scene.rotation.y += 0.005;
           controls.update();
           renderer.render(scene, camera);
           requestAnimationFrame(animate);

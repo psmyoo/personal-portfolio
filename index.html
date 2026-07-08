@@ -22,7 +22,7 @@
   <main id="top">
     <!-- ============ HERO ============ -->
     <section class="hero">
-      <canvas class="hero-motion" aria-hidden="true"></canvas>
+      <div class="hero-scene" aria-hidden="true"></div>
       <div class="hero-inner">
         <h1 class="hero-title">
           <span class="line line-name">PETER YOO</span>
@@ -78,186 +78,98 @@
     <p class="footer-copyright">&copy; 2026 Peter Yoo. All rights reserved.</p>
   </footer>
 
-  <!-- Hero motion study: a bouncing ball with squash & stretch, onion-skin
-       ghosts, a dashed arc trail, and keyframe diamonds at contacts and apexes. -->
-  <script>
-    (function () {
-      var canvas = document.querySelector(".hero-motion");
-      if (!canvas) return;
-      var ctx = canvas.getContext("2d");
-      var w, h;
-
-      function resize() {
-        var dpr = Math.min(window.devicePixelRatio || 1, 2);
-        w = canvas.clientWidth;
-        h = canvas.clientHeight;
-        canvas.width = w * dpr;
-        canvas.height = h * dpr;
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  <!-- Hero 3D viewport (right side) — contained drag-to-orbit diorama in the
+       style of Ricardo Oliva Alonso's CodePen rooms. Placeholder model:
+       "Littlest Tokyo" by Glen Fox, CC BY 4.0. Swap MODEL_URL for Peter's own
+       glTF room when ready. Inline module so it runs from file:// too. -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.170.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.170.0/examples/jsm/"
       }
-      resize();
-      window.addEventListener("resize", resize);
+    }
+  </script>
+  <script type="module">
+    import * as THREE from "three";
+    import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+    import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+    import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
+    import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 
-      var INK = "17, 17, 20";
-      var BLUE = "#1e4fff";
-      var R = 22; // ball radius
+    const MODEL_URL =
+      "https://cdn.jsdelivr.net/gh/mrdoob/three.js@r170/examples/models/gltf/LittlestTokyo.glb";
 
-      var ball, ghosts, trail, keys, ghostTimer, resetTimer, prevVy;
+    const container = document.querySelector(".hero-scene");
+    if (container) {
+      try {
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        container.appendChild(renderer.domElement);
 
-      function reset() {
-        ball = {
-          x: w * 0.34,
-          y: h * 0.22,
-          vx: w * 0.115,
-          vy: 0,
-          squash: 0,
-        };
-        ghosts = [];
-        trail = [];
-        keys = [{ x: ball.x, y: ball.y }];
-        ghostTimer = 0;
-        resetTimer = 0;
-        prevVy = 0;
+        const scene = new THREE.Scene();
+        const pmrem = new THREE.PMREMGenerator(renderer);
+        scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+
+        const camera = new THREE.PerspectiveCamera(
+          40,
+          container.clientWidth / container.clientHeight,
+          1,
+          100
+        );
+        camera.position.set(6, 3, 9);
+
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.target.set(0, 0.6, 0);
+        controls.enableDamping = true;
+        controls.enablePan = false;
+        controls.enableZoom = false;
+        controls.autoRotate = true;
+        controls.autoRotateSpeed = 0.9;
+        controls.minPolarAngle = 0.9;
+        controls.maxPolarAngle = 1.45;
+        controls.update();
+
+        const draco = new DRACOLoader();
+        draco.setDecoderPath("https://www.gstatic.com/draco/versioned/decoders/1.5.7/");
+        const loader = new GLTFLoader();
+        loader.setDRACOLoader(draco);
+
+        let mixer = null;
+        const clock = new THREE.Clock();
+
+        loader.load(MODEL_URL, (gltf) => {
+          const model = gltf.scene;
+          model.position.set(1, 0.4, 0);
+          model.scale.setScalar(0.0085);
+          scene.add(model);
+          mixer = new THREE.AnimationMixer(model);
+          mixer.clipAction(gltf.animations[0]).play();
+          container.classList.add("is-ready");
+        });
+
+        const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (reduced) controls.autoRotate = false;
+
+        function animate() {
+          const dt = clock.getDelta();
+          if (mixer) mixer.update(dt);
+          controls.update();
+          renderer.render(scene, camera);
+          requestAnimationFrame(animate);
+        }
+        animate();
+
+        window.addEventListener("resize", () => {
+          camera.aspect = container.clientWidth / container.clientHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(container.clientWidth, container.clientHeight);
+        });
+      } catch (e) {
+        // WebGL unavailable — the page simply renders without the 3D scene.
       }
-
-      var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      var last = null;
-
-      function step(dt) {
-        var floor = h * 0.76;
-        var g = h * 1.7;
-
-        if (resetTimer > 0) {
-          resetTimer -= dt;
-          if (resetTimer <= 0) reset();
-          return;
-        }
-
-        ball.vy += g * dt;
-        ball.x += ball.vx * dt;
-        ball.y += ball.vy * dt;
-        if (ball.squash > 0) ball.squash -= dt;
-
-        // apex: vertical velocity flips from up to down
-        if (prevVy < 0 && ball.vy >= 0) keys.push({ x: ball.x, y: ball.y });
-        prevVy = ball.vy;
-
-        // contact
-        if (ball.y + R > floor && ball.vy > 0) {
-          ball.y = floor - R;
-          ball.vy = -ball.vy * 0.72;
-          ball.squash = 0.09;
-          keys.push({ x: ball.x, y: floor - R });
-          if (Math.abs(ball.vy) < h * 0.12) ball.vy = -h * 0.12;
-        }
-
-        trail.push({ x: ball.x, y: ball.y });
-
-        ghostTimer += dt;
-        if (ghostTimer > 0.075) {
-          ghostTimer = 0;
-          ghosts.push(pose());
-        }
-
-        if (ball.x - R > w) resetTimer = 0.9;
-      }
-
-      function pose() {
-        var speed = Math.abs(ball.vy);
-        var q = Math.min(speed / (h * 1.1), 0.5);
-        if (ball.squash > 0) {
-          return { x: ball.x, y: ball.y, rx: R * 1.45, ry: R * 0.62, a: 0 };
-        }
-        var angle = Math.atan2(ball.vy, ball.vx);
-        return { x: ball.x, y: ball.y, rx: R * (1 + q * 0.55), ry: R * (1 - q * 0.32), a: angle };
-      }
-
-      function drawPose(p, style, fill) {
-        ctx.save();
-        ctx.translate(p.x, p.y);
-        ctx.rotate(p.a);
-        ctx.beginPath();
-        ctx.ellipse(0, 0, p.rx, p.ry, 0, 0, Math.PI * 2);
-        if (fill) {
-          ctx.fillStyle = style;
-          ctx.fill();
-        } else {
-          ctx.strokeStyle = style;
-          ctx.lineWidth = 1.5;
-          ctx.stroke();
-        }
-        ctx.restore();
-      }
-
-      function draw() {
-        ctx.clearRect(0, 0, w, h);
-        var floor = h * 0.76;
-
-        // ground line
-        ctx.strokeStyle = "rgba(" + INK + ", 0.25)";
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        ctx.moveTo(w * 0.3, floor);
-        ctx.lineTo(w * 0.98, floor);
-        ctx.stroke();
-
-        // dashed arc trail
-        if (trail.length > 1) {
-          ctx.strokeStyle = "rgba(" + INK + ", 0.28)";
-          ctx.lineWidth = 1.5;
-          ctx.setLineDash([5, 7]);
-          ctx.beginPath();
-          ctx.moveTo(trail[0].x, trail[0].y);
-          for (var i = 1; i < trail.length; i++) ctx.lineTo(trail[i].x, trail[i].y);
-          ctx.stroke();
-          ctx.setLineDash([]);
-        }
-
-        // onion-skin ghosts, older = fainter
-        for (var g = 0; g < ghosts.length; g++) {
-          var a = 0.05 + 0.2 * (g / Math.max(ghosts.length - 1, 1));
-          drawPose(ghosts[g], "rgba(" + INK + ", " + a + ")", false);
-        }
-
-        // keyframe diamonds at contacts and apexes
-        for (var k = 0; k < keys.length; k++) {
-          ctx.save();
-          ctx.translate(keys[k].x, keys[k].y);
-          ctx.rotate(Math.PI / 4);
-          ctx.fillStyle = BLUE;
-          ctx.fillRect(-4, -4, 8, 8);
-          ctx.restore();
-        }
-
-        // the ball
-        if (resetTimer <= 0) {
-          var shadowScale = Math.max(0.25, 1 - (floor - ball.y) / (h * 0.6));
-          ctx.fillStyle = "rgba(" + INK + ", " + 0.12 * shadowScale + ")";
-          ctx.beginPath();
-          ctx.ellipse(ball.x, floor + 8, R * 1.1 * shadowScale + R * 0.4, R * 0.18, 0, 0, Math.PI * 2);
-          ctx.fill();
-          drawPose(pose(), BLUE, true);
-        }
-      }
-
-      function frame(now) {
-        if (last == null) last = now;
-        var dt = Math.min((now - last) / 1000, 0.033);
-        last = now;
-        step(dt);
-        draw();
-        if (!reduced) requestAnimationFrame(frame);
-      }
-
-      reset();
-      if (reduced) {
-        // static composition: simulate one pass, render once
-        for (var s = 0; s < 240 && resetTimer <= 0; s++) step(1 / 60);
-        draw();
-      } else {
-        requestAnimationFrame(frame);
-      }
-    })();
+    }
   </script>
 </body>
 </html>

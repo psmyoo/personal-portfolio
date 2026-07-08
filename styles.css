@@ -150,6 +150,7 @@ a {
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 0 24px;
+  text-align: center;
 }
 
 .hero-title {
@@ -210,7 +211,7 @@ a {
   font-size: clamp(18px, 2vw, 21px);
   color: var(--ink-soft);
   max-width: 540px;
-  margin-bottom: 40px;
+  margin: 0 auto 40px;
   opacity: 0;
   animation: rise 0.8s var(--spring) 0.32s forwards;
 }

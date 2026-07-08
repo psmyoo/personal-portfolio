@@ -155,6 +155,121 @@ body {
   75% { opacity: 0.6; }
 }
 
+/* ============ 3D HOUSE ============ */
+
+.house-scene {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1100px;
+  opacity: 0.5;
+}
+
+.house {
+  position: relative;
+  width: 160px;
+  height: 180px;
+  transform-style: preserve-3d;
+  animation: house-turn 34s linear infinite;
+}
+
+@keyframes house-turn {
+  from { transform: scale(1.9) rotateX(-22deg) rotateY(0deg); }
+  to   { transform: scale(1.9) rotateX(-22deg) rotateY(360deg); }
+}
+
+.face {
+  position: absolute;
+  background: rgba(16, 28, 50, 0.35);
+  border: 1px solid rgba(200, 170, 110, 0.6);
+  box-shadow: inset 0 0 22px rgba(10, 200, 185, 0.12);
+}
+
+/* walls — 160 wide, 110 tall, footprint 160x160 */
+.wall {
+  width: 160px;
+  height: 110px;
+  top: 70px;
+  left: 0;
+}
+
+.wall-front { transform: translateZ(80px); }
+.wall-back  { transform: rotateY(180deg) translateZ(80px); }
+.wall-left  { transform: rotateY(-90deg) translateZ(80px); }
+.wall-right { transform: rotateY(90deg) translateZ(80px); }
+
+/* glowing door on the front wall */
+.wall-front::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 26px;
+  height: 46px;
+  border: 1px solid rgba(240, 217, 154, 0.8);
+  border-bottom: none;
+  background: rgba(10, 200, 185, 0.28);
+  box-shadow: 0 0 16px rgba(10, 200, 185, 0.5);
+}
+
+/* windows on the side walls */
+.wall-left::after,
+.wall-right::after {
+  content: "";
+  position: absolute;
+  top: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgba(240, 217, 154, 0.7);
+  background: rgba(10, 200, 185, 0.2);
+  box-shadow: 0 0 14px rgba(10, 200, 185, 0.4);
+}
+
+/* gable triangles above the side walls; ridge runs left-right */
+.gable {
+  width: 160px;
+  height: 70px;
+  top: 0;
+  left: 0;
+  clip-path: polygon(50% 0, 0 100%, 100% 100%);
+  border: none;
+  background: rgba(20, 34, 60, 0.45);
+}
+
+.gable-left  { transform: rotateY(-90deg) translateZ(80px); }
+.gable-right { transform: rotateY(90deg) translateZ(80px); }
+
+/* roof planes — slope length ≈ hypot(80, 70) ≈ 106px */
+.roof {
+  width: 160px;
+  height: 106px;
+  top: 0;
+  left: 0;
+  transform-origin: top center;
+  background: rgba(24, 38, 66, 0.5);
+  border-color: rgba(200, 170, 110, 0.85);
+}
+
+.roof-front { transform: rotateX(48.8deg); }
+.roof-back  { transform: rotateX(-48.8deg); }
+
+/* glowing platform beneath the house */
+.base {
+  width: 220px;
+  height: 220px;
+  left: -30px;
+  top: 70px;
+  transform: rotateX(90deg);
+  border-color: rgba(10, 200, 185, 0.4);
+  background: radial-gradient(circle, rgba(10, 200, 185, 0.18), rgba(16, 28, 50, 0.1) 70%);
+  box-shadow: 0 0 40px rgba(10, 200, 185, 0.25);
+}
+
 .hero-inner {
   position: relative;
   text-align: center;
@@ -170,8 +285,8 @@ body {
 .hero-title {
   font-family: var(--display);
   font-weight: 700;
-  font-size: clamp(64px, 12vw, 128px);
-  line-height: 1.02;
+  font-size: clamp(44px, 8.5vw, 100px);
+  line-height: 1.08;
   letter-spacing: 0.06em;
 }
 
@@ -216,15 +331,6 @@ body {
   background: var(--gold);
   transform: rotate(45deg);
   box-shadow: 0 0 12px rgba(200, 170, 110, 0.7);
-}
-
-.hero-role {
-  font-family: var(--display);
-  font-size: 24px;
-  letter-spacing: 0.42em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin-bottom: 24px;
 }
 
 .hero-tagline {
@@ -454,8 +560,13 @@ body {
     gap: 18px;
   }
 
-  .hero-role {
-    letter-spacing: 0.28em;
+  .house-scene {
+    opacity: 0.35;
+  }
+
+  @keyframes house-turn {
+    from { transform: scale(1.1) rotateX(-22deg) rotateY(0deg); }
+    to   { transform: scale(1.1) rotateX(-22deg) rotateY(360deg); }
   }
 
   .section {

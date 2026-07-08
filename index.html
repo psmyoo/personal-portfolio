@@ -48,15 +48,6 @@
           100
         );
 
-        // Render as if the viewport were wider and show its left slice, so the
-        // diorama sits in the right ~72% of the hero, clear of the titles.
-        function applyViewOffset() {
-          const w = container.clientWidth;
-          const h = container.clientHeight;
-          camera.setViewOffset(w * 1.45, h, 0, 0, w, h);
-        }
-        applyViewOffset();
-
         const draco = new DRACOLoader();
         draco.setDecoderPath("https://www.gstatic.com/draco/versioned/decoders/1.5.7/");
         const loader = new GLTFLoader();
@@ -83,7 +74,7 @@
           if (mixer) mixer.update(dt);
           t += dt;
           const ang = t * 0.08;
-          camera.position.set(Math.sin(ang) * 11.5, 3, Math.cos(ang) * 11.5);
+          camera.position.set(Math.sin(ang) * 9.5, 2.6, Math.cos(ang) * 9.5);
           camera.lookAt(0.4, 0.7, 0);
           renderer.render(scene, camera);
           if (!reduced) requestAnimationFrame(animate);
@@ -92,7 +83,6 @@
 
         window.addEventListener("resize", () => {
           camera.aspect = container.clientWidth / container.clientHeight;
-          applyViewOffset();
           camera.updateProjectionMatrix();
           renderer.setSize(container.clientWidth, container.clientHeight);
         });

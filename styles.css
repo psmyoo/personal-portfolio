@@ -224,7 +224,14 @@ body {
   letter-spacing: 0.42em;
   text-transform: uppercase;
   color: var(--text-muted);
-  margin-bottom: 44px;
+  margin-bottom: 24px;
+}
+
+.hero-tagline {
+  font-size: 17px;
+  color: var(--text-muted);
+  max-width: 520px;
+  margin: 0 auto 44px;
 }
 
 .cta {

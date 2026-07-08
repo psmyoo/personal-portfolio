@@ -17,6 +17,11 @@
       <a href="about.html">About</a>
       <a href="#">Resume</a> <!-- TODO: point to resume link (PDF/Drive) -->
     </nav>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+    </button>
   </header>
 
   <main class="page-main">
@@ -54,6 +59,24 @@
       }
       window.addEventListener("scroll", update, { passive: true });
       update();
+    })();
+  </script>
+  <!-- mobile hamburger menu -->
+  <script>
+    (function () {
+      var header = document.querySelector(".site-header");
+      var toggle = document.querySelector(".nav-toggle");
+      if (!header || !toggle) return;
+      toggle.addEventListener("click", function () {
+        var open = header.classList.toggle("nav-open");
+        toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+      header.querySelectorAll(".site-nav a").forEach(function (a) {
+        a.addEventListener("click", function () {
+          header.classList.remove("nav-open");
+          toggle.setAttribute("aria-expanded", "false");
+        });
+      });
     })();
   </script>
 </body>

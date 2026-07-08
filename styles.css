@@ -153,6 +153,20 @@ a {
   text-align: center;
 }
 
+.hero-tags {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  font-family: var(--mono);
+  font-size: 15px;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  margin-bottom: 22px;
+  opacity: 0;
+  animation: rise 0.8s var(--spring) 0s forwards;
+}
+
 .hero-title {
   font-family: var(--display);
   font-weight: 700;

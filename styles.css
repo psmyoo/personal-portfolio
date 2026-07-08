@@ -142,7 +142,9 @@ a {
 .hero-bg {
   position: absolute;
   inset: -14% -4%;
-  background: url("assets/hero-bg.jpg") center / cover no-repeat;
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)),
+    url("assets/hero-bg.jpg") center / cover no-repeat;
   will-change: transform;
 }
 

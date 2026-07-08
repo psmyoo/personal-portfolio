@@ -143,14 +143,12 @@ a {
   z-index: 1;
 }
 
-/* wireframe turntable canvas, right of the titles */
-.hero-wire {
+/* bouncing-ball motion study across the hero */
+.hero-motion {
   position: absolute;
-  top: 50%;
-  right: -6%;
-  transform: translateY(-50%);
-  width: min(56vw, 780px);
-  height: min(56vw, 780px);
+  inset: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .hero-inner {
@@ -581,11 +579,8 @@ a {
     gap: 16px;
   }
 
-  .hero-wire {
-    width: 88vw;
-    height: 88vw;
-    right: -22%;
-    opacity: 0.5;
+  .hero-motion {
+    opacity: 0.45;
   }
 
   .section {

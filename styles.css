@@ -167,15 +167,6 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-.hero-kicker {
-  font-size: 15px;
-  font-weight: 500;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  color: var(--teal);
-  margin-bottom: 24px;
-}
-
 .hero-title {
   font-family: var(--display);
   font-weight: 700;
@@ -401,57 +392,6 @@ body {
 }
 
 .reel-note {
-  font-size: 15px;
-  color: var(--text-muted);
-}
-
-/* ============ WORK ============ */
-
-.project-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 28px;
-}
-
-.project-card {
-  background: var(--bg-raised);
-  border: 1px solid var(--border);
-  padding: 18px;
-  transition: border-color 0.25s ease, transform 0.25s ease;
-}
-
-.project-card:hover {
-  border-color: var(--gold);
-  transform: translateY(-4px);
-}
-
-.project-thumb {
-  aspect-ratio: 16 / 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background:
-    radial-gradient(ellipse 80% 80% at 50% 110%, rgba(10, 200, 185, 0.10), transparent 65%),
-    linear-gradient(150deg, var(--surface), #0d1526);
-  border: 1px solid var(--border);
-  margin-bottom: 16px;
-}
-
-.thumb-glyph {
-  font-family: var(--display);
-  font-size: 40px;
-  color: var(--gold);
-  opacity: 0.55;
-}
-
-.project-card h3 {
-  font-family: var(--display);
-  font-size: 19px;
-  letter-spacing: 0.08em;
-  margin-bottom: 6px;
-}
-
-.project-card p {
   font-size: 15px;
   color: var(--text-muted);
 }

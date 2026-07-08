@@ -6,13 +6,21 @@
   <title>Peter Yoo — 3D Animator</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
-  <script src="script.js" defer></script>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.170.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.170.0/examples/jsm/"
+      }
+    }
+  </script>
+  <script type="module" src="scene3d.js"></script>
 </head>
 <body>
   <header class="site-header">
-    <a class="logo" href="#top">P<span class="logo-accent">Y</span></a>
+    <a class="logo" href="#top">PY</a>
     <nav class="site-nav">
       <a href="#reel">Animation</a>
       <a href="about.html">About</a>
@@ -23,81 +31,12 @@
   <main id="top">
     <!-- ============ HERO ============ -->
     <section class="hero">
-      <div class="hero-bg" aria-hidden="true">
-        <div class="glow glow-teal"></div>
-        <div class="glow glow-magenta"></div>
-        <div class="horizon-glow"></div>
-        <svg class="skyline skyline-far" viewBox="0 0 1440 320" preserveAspectRatio="xMidYMax slice">
-          <g>
-            <rect x="40" y="170" width="80" height="150"/>
-            <rect x="55" y="140" width="50" height="34"/>
-            <rect x="68" y="110" width="24" height="34"/>
-            <polygon points="80,68 86,112 74,112"/>
-            <rect x="140" y="220" width="70" height="100"/>
-            <rect x="230" y="190" width="55" height="130"/>
-            <polygon points="257,148 266,192 248,192"/>
-            <rect x="340" y="240" width="80" height="80"/>
-            <rect x="450" y="200" width="60" height="120"/>
-            <rect x="540" y="230" width="50" height="90"/>
-            <rect x="620" y="120" width="90" height="200"/>
-            <rect x="640" y="85" width="50" height="38"/>
-            <rect x="655" y="55" width="20" height="32"/>
-            <polygon points="665,8 671,57 659,57"/>
-            <rect x="760" y="210" width="70" height="110"/>
-            <rect x="860" y="180" width="60" height="140"/>
-            <polygon points="890,140 898,182 882,182"/>
-            <rect x="950" y="240" width="90" height="80"/>
-            <rect x="1060" y="200" width="55" height="120"/>
-            <rect x="1150" y="160" width="70" height="160"/>
-            <rect x="1165" y="130" width="40" height="32"/>
-            <polygon points="1185,92 1192,132 1178,132"/>
-            <rect x="1260" y="220" width="80" height="100"/>
-            <rect x="1370" y="190" width="70" height="130"/>
-          </g>
-        </svg>
-        <svg class="skyline skyline-near" viewBox="0 0 1440 320" preserveAspectRatio="xMidYMax slice">
-          <g class="buildings">
-            <rect x="0" y="240" width="120" height="80"/>
-            <rect x="150" y="190" width="90" height="130"/>
-            <rect x="170" y="160" width="50" height="34"/>
-            <polygon points="195,108 203,162 187,162"/>
-            <rect x="300" y="260" width="100" height="60"/>
-            <rect x="430" y="220" width="80" height="100"/>
-            <rect x="465" y="190" width="4" height="30"/>
-            <rect x="600" y="250" width="90" height="70"/>
-            <rect x="760" y="240" width="90" height="80"/>
-            <rect x="980" y="250" width="110" height="70"/>
-            <rect x="1180" y="170" width="100" height="150"/>
-            <rect x="1205" y="135" width="50" height="38"/>
-            <polygon points="1230,82 1238,137 1222,137"/>
-            <rect x="1320" y="230" width="120" height="90"/>
-          </g>
-          <g class="windows">
-            <rect class="win" x="170" y="212" width="5" height="7"/>
-            <rect class="win" x="188" y="212" width="5" height="7"/>
-            <rect class="win" x="206" y="230" width="5" height="7"/>
-            <rect class="win" x="452" y="242" width="5" height="7"/>
-            <rect class="win" x="472" y="260" width="5" height="7"/>
-            <rect class="win" x="1204" y="196" width="5" height="7"/>
-            <rect class="win" x="1226" y="196" width="5" height="7"/>
-            <rect class="win" x="1248" y="218" width="5" height="7"/>
-            <rect class="win" x="1214" y="240" width="5" height="7"/>
-            <rect class="win" x="628" y="270" width="5" height="7"/>
-          </g>
-        </svg>
-        <canvas class="embers"></canvas>
-      </div>
-
+      <div class="webgl-scene" aria-hidden="true"></div>
       <div class="hero-inner">
         <h1 class="hero-title">
           <span class="line line-name">PETER YOO</span>
           <span class="line line-role">3D ANIMATOR</span>
         </h1>
-        <div class="ornament" aria-hidden="true">
-          <span class="ornament-rule"></span>
-          <span class="ornament-diamond"></span>
-          <span class="ornament-rule"></span>
-        </div>
         <p class="hero-tagline">
           Working at the intersection of art and motion to bring characters to life.
         </p>
@@ -106,9 +45,9 @@
           <span class="cta-label">Watch the Reel</span>
         </a>
       </div>
-
       <a class="scroll-hint" href="#reel" aria-label="Scroll to reel">
-        <span class="scroll-chevron" aria-hidden="true"></span>
+        <span class="bounce-ball" aria-hidden="true"></span>
+        <span class="bounce-ground" aria-hidden="true"></span>
       </a>
     </section>
 
@@ -119,29 +58,22 @@
 
       <a class="reel-card" href="https://vimeo.com/" target="_blank" rel="noopener">
         <div class="reel-frame" aria-hidden="true">
-          <div class="reel-corner tl"></div>
-          <div class="reel-corner tr"></div>
-          <div class="reel-corner bl"></div>
-          <div class="reel-corner br"></div>
+          <span class="tc tc-tl">TC 00:00:00:00</span>
+          <span class="tc tc-br">24 FPS</span>
           <div class="reel-play">
             <span class="reel-play-triangle"></span>
           </div>
         </div>
         <div class="reel-meta">
-          <span class="reel-label">Watch on Vimeo</span>
+          <span class="reel-label">Watch on Vimeo ↗</span>
           <span class="reel-note">Placeholder — link this to the Vimeo reel URL</span>
         </div>
       </a>
     </section>
-
   </main>
 
   <footer class="site-footer">
-    <div class="ornament" aria-hidden="true">
-      <span class="ornament-rule"></span>
-      <span class="ornament-diamond"></span>
-      <span class="ornament-rule"></span>
-    </div>
+    <div class="timeline timeline-dark" aria-hidden="true"></div>
     <p class="footer-name">Peter <span class="footer-name-accent">Yoo</span></p>
     <p class="footer-role">3D Animator</p>
     <nav class="footer-nav">
@@ -150,8 +82,6 @@
       <a href="about.html">About</a>
       <span class="footer-dot" aria-hidden="true"></span>
       <a href="resume.html">Resume</a>
-      <span class="footer-dot" aria-hidden="true"></span>
-      <a href="https://vimeo.com/" target="_blank" rel="noopener">Vimeo</a>
     </nav>
     <a class="footer-email" href="mailto:petery96@gmail.com">petery96@gmail.com</a>
     <p class="footer-copyright">&copy; 2026 Peter Yoo. All rights reserved.</p>

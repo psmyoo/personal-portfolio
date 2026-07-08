@@ -143,30 +143,6 @@ a {
   z-index: 1;
 }
 
-/* right-side 3D viewport, drag to orbit */
-.hero-scene {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 48%;
-  opacity: 0;
-  transition: opacity 1.2s ease;
-  cursor: grab;
-}
-
-.hero-scene:active {
-  cursor: grabbing;
-}
-
-.hero-scene.is-ready {
-  opacity: 1;
-}
-
-.hero-scene canvas {
-  display: block;
-}
-
 .hero-inner {
   position: relative;
   z-index: 2;
@@ -174,12 +150,6 @@ a {
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 0 24px;
-  /* let drags pass through to the 3D viewport where the two overlap */
-  pointer-events: none;
-}
-
-.hero-inner a {
-  pointer-events: auto;
 }
 
 .hero-title {
@@ -599,17 +569,6 @@ a {
 
   .site-nav {
     gap: 16px;
-  }
-
-  /* on small screens the scene sits behind the text, dimmed and non-interactive
-     so it doesn't hijack touch scrolling */
-  .hero-scene {
-    width: 100%;
-    pointer-events: none;
-  }
-
-  .hero-scene.is-ready {
-    opacity: 0.35;
   }
 
   .section {

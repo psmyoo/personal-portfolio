@@ -132,6 +132,8 @@ a {
 .hero {
   position: relative;
   min-height: 100vh;
+  /* small viewport height: stable full-screen hero under mobile browser chrome */
+  min-height: 100svh;
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -630,17 +632,112 @@ a {
 
 /* ============ RESPONSIVE ============ */
 
+/* tablet */
+@media (max-width: 1024px) {
+  .section {
+    padding: 84px 24px;
+  }
+
+  .hero-title {
+    font-size: clamp(48px, 10.5vw, 96px);
+  }
+
+  .reel-play {
+    width: 84px;
+    height: 84px;
+  }
+}
+
+/* mobile */
 @media (max-width: 640px) {
   .site-header {
     padding: 14px 20px;
+  }
+
+  .logo {
+    font-size: 19px;
   }
 
   .site-nav {
     gap: 16px;
   }
 
+  .hero {
+    padding: 104px 0 88px;
+  }
+
+  .hero-inner {
+    padding: 0 20px;
+  }
+
+  .hero-title {
+    font-size: clamp(36px, 11.5vw, 52px);
+    line-height: 1.04;
+    margin-bottom: 22px;
+  }
+
+  .hero-tags {
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .hero-tags span {
+    padding: 5px 12px;
+  }
+
+  .hero-tagline {
+    margin-bottom: 32px;
+  }
+
+  .cta {
+    padding: 16px 26px;
+  }
+
+  .scroll-cue {
+    bottom: 18px;
+  }
+
   .section {
     padding: 64px 20px;
+  }
+
+  .section-title {
+    margin-bottom: 28px;
+  }
+
+  .reel-play {
+    width: 68px;
+    height: 68px;
+  }
+
+  .reel-play-triangle {
+    border-left-width: 18px;
+    border-top-width: 11px;
+    border-bottom-width: 11px;
+    margin-left: 5px;
+  }
+
+  .tc-tl {
+    top: 10px;
+    left: 12px;
+  }
+
+  .tc-br {
+    bottom: 8px;
+    right: 12px;
+  }
+
+  .reel-meta {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .footer-name {
+    font-size: 24px;
+  }
+
+  .footer-nav {
+    gap: 12px;
   }
 }
 

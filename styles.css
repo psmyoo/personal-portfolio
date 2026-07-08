@@ -234,7 +234,7 @@ a {
 }
 
 .line-role:hover {
-  color: #00e5ff;
+  color: var(--accent-light);
 }
 
 @keyframes rise {

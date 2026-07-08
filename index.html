@@ -22,6 +22,7 @@
   <main id="top">
     <!-- ============ HERO ============ -->
     <section class="hero">
+      <div class="hero-bg" aria-hidden="true"></div>
       <div class="hero-inner">
         <p class="hero-tags">
           <span>#characteranimation</span>
@@ -114,6 +115,39 @@
 
       // let the entrance animation finish, then start from the full first phrase
       setTimeout(function () { erase(phrases[0], phrases[0].length); }, 2200);
+    })();
+  </script>
+
+  <!-- Hero parallax: background drifts slower than the page on scroll,
+       plus a gentle shift following the mouse -->
+  <script>
+    (function () {
+      var bg = document.querySelector(".hero-bg");
+      if (!bg) return;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+      var mx = 0, my = 0, ticking = false;
+
+      function apply() {
+        ticking = false;
+        var sy = Math.min(window.scrollY, window.innerHeight);
+        bg.style.transform =
+          "translate3d(" + mx + "px, " + (sy * 0.35 + my) + "px, 0)";
+      }
+
+      function request() {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(apply);
+        }
+      }
+
+      window.addEventListener("scroll", request, { passive: true });
+      window.addEventListener("mousemove", function (e) {
+        mx = (e.clientX / window.innerWidth - 0.5) * -24;
+        my = (e.clientY / window.innerHeight - 0.5) * -14;
+        request();
+      });
     })();
   </script>
 </body>

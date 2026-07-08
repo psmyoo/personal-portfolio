@@ -334,9 +334,9 @@ body {
 }
 
 .hero-tagline {
-  font-size: 17px;
-  color: var(--text-muted);
-  max-width: 520px;
+  font-size: clamp(19px, 2.2vw, 24px);
+  color: var(--text);
+  max-width: 720px;
   margin: 0 auto 44px;
 }
 

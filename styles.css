@@ -230,11 +230,6 @@ a {
 .line-role {
   color: #f2f6fc;
   animation-delay: 0.18s;
-  transition: color 0.25s ease;
-}
-
-.line-role:hover {
-  color: var(--accent-light);
 }
 
 @keyframes rise {

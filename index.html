@@ -150,5 +150,17 @@
       });
     })();
   </script>
+  <!-- header becomes solid only after scrolling -->
+  <script>
+    (function () {
+      var h = document.querySelector(".site-header");
+      if (!h) return;
+      function update() {
+        h.classList.toggle("is-scrolled", window.scrollY > 24);
+      }
+      window.addEventListener("scroll", update, { passive: true });
+      update();
+    })();
+  </script>
 </body>
 </html>

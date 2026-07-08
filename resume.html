@@ -47,5 +47,17 @@
     <a class="footer-email" href="mailto:petery96@gmail.com">petery96@gmail.com</a>
     <p class="footer-copyright">&copy; 2026 Peter Yoo. All rights reserved.</p>
   </footer>
+  <!-- header becomes solid only after scrolling -->
+  <script>
+    (function () {
+      var h = document.querySelector(".site-header");
+      if (!h) return;
+      function update() {
+        h.classList.toggle("is-scrolled", window.scrollY > 24);
+      }
+      window.addEventListener("scroll", update, { passive: true });
+      update();
+    })();
+  </script>
 </body>
 </html>

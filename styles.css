@@ -55,10 +55,17 @@ a {
   align-items: center;
   justify-content: space-between;
   padding: 18px 32px;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+/* solid bar only once the page is scrolled */
+.site-header.is-scrolled {
   background: rgba(245, 241, 232, 0.85);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--line);
+  border-bottom-color: var(--line);
 }
 
 .logo {

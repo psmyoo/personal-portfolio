@@ -285,6 +285,13 @@ body {
   50% { transform: translateX(-50%) translateY(8px); }
 }
 
+/* ============ SUBPAGES ============ */
+
+.page-main {
+  min-height: calc(100vh - 180px);
+  padding-top: 96px;
+}
+
 /* ============ SECTIONS ============ */
 
 .section {

@@ -264,9 +264,9 @@ a {
 }
 
 .hero-tagline {
-  font-size: clamp(18px, 2vw, 21px);
+  font-size: clamp(20px, 2.3vw, 25px);
   color: #dbe6f5;
-  max-width: 540px;
+  max-width: 640px;
   margin: 0 auto 40px;
   opacity: 0;
   animation: rise 0.8s var(--spring) 0.32s forwards;

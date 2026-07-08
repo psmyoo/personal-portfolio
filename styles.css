@@ -518,21 +518,9 @@ body {
 
 /* ============ ABOUT / CONTACT ============ */
 
-.about-copy,
-.contact-copy {
+.about-copy {
   font-size: 17px;
   color: var(--text-muted);
-}
-
-.contact-link {
-  color: var(--gold-bright);
-  text-decoration: none;
-  border-bottom: 1px solid var(--gold);
-  transition: color 0.2s ease;
-}
-
-.contact-link:hover {
-  color: var(--gold);
 }
 
 /* ============ FOOTER ============ */

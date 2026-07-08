@@ -69,11 +69,13 @@
       if (!header || !toggle) return;
       toggle.addEventListener("click", function () {
         var open = header.classList.toggle("nav-open");
+        document.body.classList.toggle("nav-locked", open);
         toggle.setAttribute("aria-expanded", open ? "true" : "false");
       });
       header.querySelectorAll(".site-nav a").forEach(function (a) {
         a.addEventListener("click", function () {
           header.classList.remove("nav-open");
+          document.body.classList.remove("nav-locked");
           toggle.setAttribute("aria-expanded", "false");
         });
       });

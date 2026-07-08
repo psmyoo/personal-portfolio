@@ -269,6 +269,16 @@ a {
   }
 }
 
+@keyframes menu-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* no background scrolling while the mobile menu is open */
+body.nav-locked {
+  overflow: hidden;
+}
+
 .hero-tagline {
   font-size: clamp(20px, 2.3vw, 25px);
   color: #dbe6f5;
@@ -661,7 +671,7 @@ a {
   }
 
   .hero-title {
-    font-size: clamp(48px, 10.5vw, 96px);
+    font-size: clamp(44px, 9vw, 96px);
   }
 
   .reel-play {
@@ -688,32 +698,49 @@ a {
     display: none;
   }
 
-  /* open menu: dropdown panel under the header bar */
+  /* open menu: full-screen navy overlay with big centered links */
   .site-header.nav-open {
-    background: rgba(245, 241, 232, 0.97);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-bottom-color: var(--line);
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-bottom-color: transparent;
+  }
+
+  .site-header.nav-open .logo {
+    color: #f2f6fc;
+  }
+
+  .site-header.nav-open .nav-toggle-bar {
+    background: #f2f6fc;
   }
 
   .site-header.nav-open .site-nav {
     display: flex;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
+    position: fixed;
+    inset: 0;
+    z-index: -1;
     flex-direction: column;
-    gap: 0;
-    background: rgba(245, 241, 232, 0.97);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--line);
-    padding: 6px 0 10px;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    background: linear-gradient(180deg, #0d1a36, #091124);
+    animation: menu-fade 0.25s ease both;
   }
 
   .site-header.nav-open .site-nav a {
-    padding: 13px 24px;
+    font-family: var(--display);
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: #f2f6fc;
+    padding: 10px 20px;
+    opacity: 0;
+    animation: rise 0.5s var(--spring) forwards;
   }
+
+  .site-header.nav-open .site-nav a:nth-of-type(1) { animation-delay: 0.08s; }
+  .site-header.nav-open .site-nav a:nth-of-type(2) { animation-delay: 0.16s; }
+  .site-header.nav-open .site-nav a:nth-of-type(3) { animation-delay: 0.24s; }
 
   .site-header.nav-open .site-nav a::after {
     display: none;
@@ -741,9 +768,13 @@ a {
   }
 
   .hero-title {
-    font-size: clamp(36px, 11.5vw, 52px);
-    line-height: 1.04;
+    font-size: clamp(26px, 8.4vw, 52px);
+    line-height: 1.08;
     margin-bottom: 22px;
+  }
+
+  .hero-title .line {
+    white-space: nowrap;
   }
 
   .hero-tags {
